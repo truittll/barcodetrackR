@@ -1,0 +1,85 @@
+barcode_stacked=function(your_data,
+                         samples,
+                         time,
+                         n_clones,
+                         title=NULL,
+                         colors=FALSE,
+                         mode="PROP",
+                         n=9){
+  
+  your_data=your_data[,samples]
+  Sum=vector(length=nrow(your_data))
+  list_of_combinded_files=NULL
+  for(i in 1:nrow(your_data)){
+    Sum[i]=sum(your_data[i,])
+  }
+  r=rank(-Sum)
+  for(i in 1:nrow(your_data)){
+    if(r[i] <= n_clones){
+      temp=
+        list_of_combinded_files[[n_clones-r[i]+1]]=as.data.frame(your_data[i,])
+    }
+  }
+  titles=vector(length=n_clones);titles[]=seq(1,n_clones)
+  for(i in 1:length(titles)){
+    titles[i]=paste("Barcode ",toString(titles[i]))
+  }
+  
+  time_points=length(samples)
+  Libraries=rep(titles,times=time_points)
+  Months=as.numeric(rep(time,each=n_clones))
+  Barcode_count=vector(length=length(Libraries))
+  for(i in 1:n_clones){
+    for(j in 1:time_points){
+      temp=list_of_combinded_files[[i]][,samples]
+      Barcode_count[(j-1)*n_clones+i]=temp[,j]
+    }
+    
+    stacked_data=(data.frame(Libraries,Months,Barcode_count))}
+  colourCount=n_clones
+  if(mode=="PROP"){
+    prop=stacked_data$Barcode_count
+    for(i in 1:time_points){
+      prop[((i-1)*n_clones+1):((i-1)*n_clones+n_clones)]=prop[((i-1)*n_clones+1):((i-1)*n_clones+n_clones)]/sum(prop[((i-1)*n_clones+1):((i-1)*n_clones+n_clones)])
+    }
+    stacked_data$prop=prop
+    if(colors==FALSE){
+      ggplot(stacked_data, aes(x=stacked_data$Months, y=stacked_data$prop, fill=Libraries)) +
+        geom_area()+
+        scale_fill_viridis(discrete=TRUE)+
+        theme(legend.position="none")+
+        ggtitle(title)+
+        xlab("Time (months)")+
+        ylab("Percent Contribution of Barcode")
+    }else{
+      getPalette = colorRampPalette(RColorBrewer::brewer.pal(n, colors))
+      ggplot(stacked_data, aes(x=stacked_data$Months, y=stacked_data$prop, fill=Libraries)) +
+        geom_area()+
+        scale_fill_manual(values = getPalette(colourCount))+
+        theme(legend.position="none")+
+        ggtitle(title)+
+        xlab("Time (months)")+
+        ylab("Percent Contribution of Barcode")
+    }
+  }
+  else if(mode=="Plain"){
+    if(colors==FALSE){
+      ggplot(stacked_data, aes(x=stacked_data$Months, y=stacked_data$Barcode_count, fill=Libraries)) + 
+        geom_area()+
+        scale_fill_viridis(discrete=TRUE)+
+        theme(legend.position="none")+
+        ggtitle(title)+
+        xlab("Time (months)")+
+        ylab("Barcode Count")
+    }else{
+      getPalette = colorRampPalette(RColorBrewer::brewer.pal(n, colors))
+      ggplot(stacked_data, aes(x=stacked_data$Months, y=stacked_data$Barcode_count, fill=Libraries)) + 
+        geom_area()+
+        scale_fill_manual(values = getPalette(colourCount))+
+        theme(legend.position="none")+
+        ggtitle(title)+
+        xlab("Time (months)")+
+        ylab("Barcode Count")
+    }
+  }
+}
