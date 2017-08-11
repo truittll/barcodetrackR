@@ -1,3 +1,20 @@
+#'@title Barcode Stacked area plot
+#'
+#'@description Creates a stacked area plot over time for the top clones in your data set.
+#'
+#'@param your_data A data frame. Usually individual barcodes in rows and samples in columns.
+#'@param samples A vector of the sample names you wish to include, in time order.
+#'@param time The numeric time points associated with samples, in ascending order.
+#'@param n_clones The number of clones to display.
+#'@param title The title.
+#'@param colors The color palette of the figure. Default is from the viridis package.
+#'@param mode The type of stacked area plot. "PROP" is a proportioned stacked area plot, displaying the proportion of each barcode at the time points. "Plain" displays the pure counts of each barcode.
+#'@param n n is only relevant if using a non default color palette and using more clones than the size of the palette. If n_clones is greater than the size of the palette, n should be the max size of the palette.
+#'@return Displays stacked area plot in the current plot window.
+#'@examples
+#'stacked_area(jd76,c("jd76_1m_grans.fastq","jd76_2m_grans.fastq",jd76_3m_grans.fastq"),c(1,2,3),20)
+#'@export
+
 barcode_stacked=function(your_data,
                          samples,
                          time,
@@ -44,6 +61,7 @@ barcode_stacked=function(your_data,
     }
     stacked_data$prop=prop
     if(colors==FALSE){
+      require("viridis")
       ggplot(stacked_data, aes(x=stacked_data$Months, y=stacked_data$prop, fill=Libraries)) +
         geom_area()+
         scale_fill_viridis(discrete=TRUE)+
@@ -64,6 +82,7 @@ barcode_stacked=function(your_data,
   }
   else if(mode=="Plain"){
     if(colors==FALSE){
+      require("viridis")
       ggplot(stacked_data, aes(x=stacked_data$Months, y=stacked_data$Barcode_count, fill=Libraries)) + 
         geom_area()+
         scale_fill_viridis(discrete=TRUE)+
