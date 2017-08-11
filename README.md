@@ -9,7 +9,7 @@ Code by Diego A. Espinoza and Samson J. Koelle.
 To install this package, try the following commands in R:
 ```
 install.packages("devtools") #or skip, if you already have it
-devtools::install_github("d93espinoza/barcodetrackR") #installs package from GitHub
+devtools::install_github("truittll/barcodetrackR") #installs package from GitHub
 ```
 
 ## Running the app
@@ -66,6 +66,9 @@ BBHM()
 
 barcode_ggheatmap()
 #displays heatmap of the top N clones in selected samples
+
+barcode_stacked()
+#displays stacked area plot of top N clones in selected samples
 
 clonaldiversity()
 #calcuate diversity indices for samples across time
