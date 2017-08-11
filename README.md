@@ -2,7 +2,7 @@
 
 This is an R package originally built for the use of cellular barcoding experiments performed at the Dunbar Lab at the National Institutes of Health. It includes a Shiny app for ease of use.
 
-Code by Diego A. Espinoza and Samson J. Koelle.
+Code by Diego A. Espinoza, Samson J. Koelle, and Lauren L. Truitt.
 
 ## Installation
 
