@@ -85,6 +85,9 @@ gettopindices()
 launchApp()
 #launch the shiny app that eases the use of the majority these functions
 
+library_stacked()
+#displays stacked area plot of the total barcode counts for each library
+
 merger()
 #merges list of matrices by rowname, including all entries
 
