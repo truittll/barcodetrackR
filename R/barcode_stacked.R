@@ -15,7 +15,7 @@
 #'stacked_area(jd76,c("jd76_1m_grans.fastq","jd76_2m_grans.fastq",jd76_3m_grans.fastq"),c(1,2,3),20)
 #'@export
 
-barcode_stacked=function(your_data,
+barcode_stacked<-function(your_data,
                          samples,
                          time,
                          n_clones,
